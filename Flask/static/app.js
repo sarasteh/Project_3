@@ -1,7 +1,5 @@
-
-
 //init the sample and feature objects
-//const usdaData = 'usda_survey_splitted.json';
+
 url='http://127.0.0.1:5000/send';
 features = [];
 colorCodes = [];
@@ -11,11 +9,9 @@ let clearSelection= d3.select("#clearSelection");
 let clearPlots=d3.select("#clearPlots");
 
 
-
 //--------------------------------------
 function submitData(){
-    console.log('I am inside test');
-    
+        
     var stateValues = [];
     d3.select('#states').selectAll("option:checked").each(function () {
         stateValues.push(this.value)
@@ -52,16 +48,14 @@ function submitData(){
 }
 //--------------- Clear Selections ---------------
 function clearDropDowns(){
-    console.log("Inside clear selection");
     window.location.reload(); 
 }
 //-----------------Clear Plots-----------------
 function clearAllPlots(){
-    console.log('inside clear all plots');
+    
     Plotly.purge('statesBar');
     Plotly.purge('yearlyBar');
-    //Plotly.purge('commodityChart');
-    
+       
     var chart = d3.select('#myChart');
     chart.remove();
     d3.select('#chartReport').append('canvas').attr("id", "myChart");
@@ -73,7 +67,7 @@ function clearAllPlots(){
 //---------------------------------------------
 //######## Fetch the json Data###########
 d3.json(url).then(function (jsonData){
-    console.log('outside js folder');
+    console.log('fetching data..');
     console.log('data is:',jsonData);
     console.log('usdaData Features:',Object.keys(jsonData));
 
@@ -100,10 +94,10 @@ d3.json(url).then(function (jsonData){
 
 
 
-//################################
+//######################################
 
 
-//################      Functions    #########################
+//################  Functions    ########
 function updateNewFeatures(years, state, produce) {
 
     sample = [];
@@ -480,45 +474,8 @@ function pieChart(sample) {
 }
 
 //-----------------------------------------------
-//update after each submission
-submit.on("click", function () {
 
-
-    var stateValues = [];
-    d3.select('#states').selectAll("option:checked").each(function () {
-        stateValues.push(this.value)
-    });
-    console.log('state values::', stateValues);
-
-    var produce = [];
-    var vegAndGrains = [];
-    var fruits = [];
-    var years = [];
-    d3.select('#VegAndGrain').selectAll("option:checked").each(function () {
-        vegAndGrains.push(this.value)
-    });
-    console.log('vegAndGrains values::', vegAndGrains);
-
-    d3.select('#fruits').selectAll("option:checked").each(function () {
-        fruits.push(this.value)
-    });
-    console.log('fruits values:', fruits);
-
-
-    produce = vegAndGrains.concat(fruits);
-
-
-    d3.select('#years').selectAll("option:checked").each(function () {
-        years.push(this.value)
-    });
-    console.log('years values::', years);
-
-    years = years.map(item => parseInt(item));
-    console.log('int years values::', years);
-
-    updateNewFeatures(years, stateValues, produce);
-});
-//-------------------------------------------
+//------------Doughnut Chart-------------------------------
 function doughnutChart(sample) {
     var x = sample.map(row => row.commodity_desc);
     var x_values = x.filter((value, index, array) => array.indexOf(value) === index);
@@ -588,29 +545,3 @@ function doughnutChart(sample) {
 }
 
 //-------------------------------------------
-//clear plots and resets dropdowns
-clearPlots.on("click", function () {
-    
-    console.log('clear plots');
-    Plotly.purge('statesBar');
-    Plotly.purge('yearlyBar');
-    //Plotly.purge('commodityChart');
-    
-    var chart = d3.select('#myChart');
-    chart.remove();
-    d3.select('#chartReport').append('canvas').attr("id", "myChart");
-    
-    var chart2 = d3.select('#pieChart');
-    chart2.remove();
-    d3.select('#pieReport').append('canvas').attr("id", "pieChart");
-});
-//-----------------------------------------------
-clearSelection.on("click", function () {
-    
-    window.location.reload(); 
-    
-});
-
-//#######################################
-
-
