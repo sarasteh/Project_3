@@ -10,6 +10,67 @@ let submit = d3.select("#submitButton");
 let clearSelection= d3.select("#clearSelection");
 let clearPlots=d3.select("#clearPlots");
 
+
+
+//--------------------------------------
+function submitData(){
+    console.log('I am inside test');
+    
+    var stateValues = [];
+    d3.select('#states').selectAll("option:checked").each(function () {
+        stateValues.push(this.value)
+    });
+    console.log('state values::', stateValues);
+
+    var produce = [];
+    var vegAndGrains = [];
+    var fruits = [];
+    var years = [];
+    d3.select('#VegAndGrain').selectAll("option:checked").each(function () {
+        vegAndGrains.push(this.value)
+    });
+    console.log('vegAndGrains values::', vegAndGrains);
+
+    d3.select('#fruits').selectAll("option:checked").each(function () {
+        fruits.push(this.value)
+    });
+    console.log('fruits values:', fruits);
+
+
+    produce = vegAndGrains.concat(fruits);
+
+
+    d3.select('#years').selectAll("option:checked").each(function () {
+        years.push(this.value)
+    });
+    console.log('years values::', years);
+
+    years = years.map(item => parseInt(item));
+    console.log('int years values::', years);
+
+    updateNewFeatures(years, stateValues, produce);
+}
+//--------------- Clear Selections ---------------
+function clearDropDowns(){
+    console.log("Inside clear selection");
+    window.location.reload(); 
+}
+//-----------------Clear Plots-----------------
+function clearAllPlots(){
+    console.log('inside clear all plots');
+    Plotly.purge('statesBar');
+    Plotly.purge('yearlyBar');
+    //Plotly.purge('commodityChart');
+    
+    var chart = d3.select('#myChart');
+    chart.remove();
+    d3.select('#chartReport').append('canvas').attr("id", "myChart");
+    
+    var chart2 = d3.select('#pieChart');
+    chart2.remove();
+    d3.select('#pieReport').append('canvas').attr("id", "pieChart");
+}
+//---------------------------------------------
 //######## Fetch the json Data###########
 d3.json(url).then(function (jsonData){
     console.log('outside js folder');
