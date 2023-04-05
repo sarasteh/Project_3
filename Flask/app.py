@@ -23,5 +23,10 @@ def about():
     return render_template('about.html')
 
 
+# 3. About route
+@app.route("/map")
+def drawMap():
+    return render_template('map.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
