@@ -9,6 +9,36 @@ let clearSelection= d3.select("#clearSelection");
 let clearPlots=d3.select("#clearPlots");
 
 
+//######## Fetch the json Data###########
+d3.json(url).then(function (jsonData){
+    console.log('fetching data..');
+    console.log('data is:',jsonData);
+    console.log('usdaData Features:',Object.keys(jsonData));
+
+     dataSize = Object.keys(jsonData.Value).length;
+
+     for (var i = 0; i < dataSize; i++) {
+         features.push({
+             'value_harvested': jsonData.Value_Harvested[i],
+             'value_planted': jsonData.Value_Planted[i],
+             'value_bearing': jsonData.Value_Bearing[i],
+             'value': jsonData.Value[i],
+             'year': jsonData.year[i],
+             'commodity_desc': jsonData.commodity_desc[i],
+             'state_alpha': jsonData.state_alpha[i],
+             'statisticcat_desc': jsonData.statisticcat_desc[i],
+             'short_desc': jsonData.short_desc[i],
+             'group_desc': jsonData.group_desc[i],
+         });
+
+     }
+     colorCodes = generateRandomHexCode();
+
+});
+
+//######################################
+
+
 //--------------------------------------
 function submitData(){
         
@@ -65,36 +95,6 @@ function clearAllPlots(){
     d3.select('#pieReport').append('canvas').attr("id", "pieChart");
 }
 //---------------------------------------------
-//######## Fetch the json Data###########
-d3.json(url).then(function (jsonData){
-    console.log('fetching data..');
-    console.log('data is:',jsonData);
-    console.log('usdaData Features:',Object.keys(jsonData));
-
-     dataSize = Object.keys(jsonData.Value).length;
-
-     for (var i = 0; i < dataSize; i++) {
-         features.push({
-             'value_harvested': jsonData.Value_Harvested[i],
-             'value_planted': jsonData.Value_Planted[i],
-             'value_bearing': jsonData.Value_Bearing[i],
-             'value': jsonData.Value[i],
-             'year': jsonData.year[i],
-             'commodity_desc': jsonData.commodity_desc[i],
-             'state_alpha': jsonData.state_alpha[i],
-             'statisticcat_desc': jsonData.statisticcat_desc[i],
-             'short_desc': jsonData.short_desc[i],
-             'group_desc': jsonData.group_desc[i],
-         });
-
-     }
-     colorCodes = generateRandomHexCode();
-
-});
-
-
-
-//######################################
 
 
 //################  Functions    ########
