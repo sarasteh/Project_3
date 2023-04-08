@@ -51,7 +51,6 @@ The Flask app has three routes: *home, about, and map*.
 > Cleaning and Exploratory Data Analysis
 
     -  usdaPy_EDA.ipynb
-    -  USDA_DataCleaning.ipynb
 
 
 > Input Source Files
